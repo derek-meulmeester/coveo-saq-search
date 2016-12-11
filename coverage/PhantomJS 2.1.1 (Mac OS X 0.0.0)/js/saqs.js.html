@@ -1,0 +1,2945 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/saqs.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">js/</a> saqs.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.75% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>182/416</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.82% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>51/171</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.07% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>46/112</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.75% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>182/416</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var API;
+        (function (API) {
+            API.BASE_URL = 'https://cloudplatform.coveo.com';
+            API.SEARCH_URI = API.BASE_URL + '/rest/search';
+        })(API = Const.API || (Const.API = {}));
+    })(Const = SAQS.Const || (SAQS.Const = {}));
+})(SAQS || (SAQS = {}));
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var Events;
+        (function (Events) {
+            Events.addFilter = 'filter.add';
+            Events.afterAddFilter = 'filter.add.after';
+            Events.removeFilter = 'filter.remove';
+            Events.afterRemoveFilter = 'filter.remove.after';
+            Events.applyFilters = 'filter.apply';
+            Events.afterApplyFilters = 'filter.apply.after';
+            Events.loadProducts = 'product.load';
+            Events.performSearch = 'search.load';
+        })(Events = Const.Events || (Const.Events = {}));
+    })(Const = SAQS.Const || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Const = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var Filters;
+        (function (Filters) {
+            Filters.Sort = {
+                ASC: 'fieldAscending',
+                DESC: 'fieldDescending'
+            };
+            Filters.ON_SPECIAL = {
+                title: 'On Special',
+                type: 'checkbox',
+                category: 'tpenspecial',
+                options: [{
+                        category: 'tpenspecial',
+                        key: 'on-special',
+                        label: 'Only',
+                        bcDisplay: 'On Special',
+                        value: false,
+                        submitValue: true,
+                        multi: false
+                    }]
+            };
+            // TODO: Add Price Filter
+            // export const PRICE: Models.ProductFilter = {
+            //     title: 'Price Range',
+            //     type: 'range',
+            //     category: 'tpprice',
+            //     options: [{
+            //         category: 'tpprice',
+            //         key: 'price-range',
+            //         label: '',
+            //         submitValue: true,
+            //         multi: false,
+            //         value: {
+            //             min: 0,
+            //             max: 1000
+            //         }
+            //     }]
+            // };
+            Filters.CATEGORY = {
+                title: 'Category',
+                type: 'checkbox',
+                category: 'tpcategorie',
+                options: [{
+                        category: 'tpcategorie',
+                        key: 'type_red-wine',
+                        label: 'Red Wine',
+                        value: false,
+                        submitValue: '"Vin rouge"',
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_white-wine',
+                        label: 'White Wine',
+                        submitValue: '"Vin blanc"',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_rose',
+                        label: 'Rosé',
+                        submitValue: '"Vin rosé"',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_porto',
+                        label: 'Porto',
+                        submitValue: 'Porto',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_whisky',
+                        label: 'Whisky',
+                        submitValue: 'Whisky',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_dry-gin',
+                        label: 'Dry Gin',
+                        submitValue: '"Dry gin"',
+                        value: false,
+                        multi: true
+                    }]
+            };
+            Filters.REGION = {
+                title: 'Region',
+                type: 'checkbox',
+                category: 'tpregion',
+                options: [{
+                        category: 'tpregion',
+                        key: 'region_california',
+                        label: 'California',
+                        value: false,
+                        submitValue: 'californie',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_toscane',
+                        label: 'Toscane',
+                        value: false,
+                        submitValue: 'toscane',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_bourgogne',
+                        label: 'Bourgogne',
+                        value: false,
+                        submitValue: 'Bourgogne',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_bordeaux',
+                        label: 'Bordeaux',
+                        value: false,
+                        submitValue: 'Bordeaux',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_quebec',
+                        label: 'Québec',
+                        value: false,
+                        submitValue: '"Québec"',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_vallee-du-rhone',
+                        label: 'Vallée du Rhône',
+                        value: false,
+                        submitValue: '"Vallée du Rhône"',
+                        multi: true
+                    }]
+            };
+            Filters.COUNTRY = {
+                title: 'Country',
+                type: 'checkbox',
+                category: 'tppays',
+                options: [{
+                        category: 'tppays',
+                        key: 'country_france',
+                        label: 'France',
+                        value: false,
+                        submitValue: 'france',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_us',
+                        label: 'U.S.',
+                        value: false,
+                        submitValue: 'etats-unis',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_italy',
+                        label: 'Italy',
+                        value: false,
+                        submitValue: 'italie',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_canada',
+                        label: 'Canada',
+                        value: false,
+                        submitValue: 'Canada',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_spain',
+                        label: 'Spain',
+                        value: false,
+                        submitValue: 'Espagne',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_portugal',
+                        label: 'Portugal',
+                        value: false,
+                        submitValue: 'Portugal',
+                        multi: true
+                    }]
+            };
+            Filters.ALL_FILTERS = [
+                Filters.ON_SPECIAL,
+                //PRICE,
+                Filters.CATEGORY,
+                Filters.REGION,
+                Filters.COUNTRY
+            ];
+        })(Filters = Const.Filters || (Const.Filters = {}));
+    })(Const = SAQS.Const || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Const = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var LocalStorage;
+        (function (LocalStorage) {
+            LocalStorage.FAVORITE_PRODUCTS = 'saqs.products.favorites';
+        })(LocalStorage = Const.LocalStorage || (Const.LocalStorage = {}));
+    })(Const = SAQS.Const || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Const = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var Paging;
+        (function (Paging) {
+            Paging.DEFAULT_LIMIT = 12;
+        })(Paging = Const.Paging || (Const.Paging = {}));
+    })(Const = SAQS.Const || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Const = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var Templates;
+        (function (Templates) {
+            var BASE = '/coveo-saq-search/templates/';
+            Templates.HOME_TPL = BASE + 'home.html';
+            Templates.NOT_FOUND_TPL = BASE + 'not-found.html';
+            Templates.SEARCH_BAR_TPL = BASE + 'directives/search-bar.html';
+            Templates.SIDE_FILTER_TPL = BASE + 'directives/side-filter.html';
+            Templates.PRODUCT_FILTER_TPL = BASE + 'directives/product-filter.html';
+            Templates.PRODUCT_LIST_TPL = BASE + 'directives/product-list.html';
+            Templates.BREADCRUMB_TPL = BASE + 'directives/breadcrumbs.html';
+            Templates.PAGING_TPL = BASE + 'directives/paging.html';
+        })(Templates = Const.Templates || (Const.Templates = {}));
+    })(Const = SAQS.Const || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Const = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Templates = SAQS.Const.Templates;
+    /**
+     * Module to contain all SAQ Search Services
+     */
+    angular.module('saqs.services', []);
+    /**
+     * Module to contain all SAQ Search Directives
+     */
+    angular.module('saqs.directives', []);
+    /**
+     * Main SAQ Search Module
+     */
+    angular.module('saqs', [
+        'ngRoute',
+        'saqs.services',
+        'saqs.directives'
+    ]);
+    /**
+     * Setup injectable constants for libs
+     */
+    angular.module('saqs').constant('_', _);
+    /**
+     * Configure routes
+     */
+    angular.module('saqs').config([
+        '$routeProvider',
+        '$compileProvider',
+<span class="fstat-no" title="function not covered" >        function ($routeProvider, $compileProvider) {</span>
+<span class="cstat-no" title="statement not covered" >            $compileProvider.debugInfoEnabled(false);</span>
+<span class="cstat-no" title="statement not covered" >            $routeProvider.when('/', {</span>
+                templateUrl: Templates.HOME_TPL
+            }).otherwise({
+                templateUrl: Templates.NOT_FOUND_TPL
+            });
+        }
+    ]);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('breadCrumbs', [
+            'EventBus',
+<span class="fstat-no" title="function not covered" >            function (EventBus) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.BREADCRUMB_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >                        scope.itemCount = 0;</span>
+<span class="cstat-no" title="statement not covered" >                        scope.totalItemCount = 0;</span>
+<span class="cstat-no" title="statement not covered" >                        scope.crumbs = [];</span>
+<span class="cstat-no" title="statement not covered" >                        scope.removeCrumb = <span class="fstat-no" title="function not covered" >function (crumb) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.removeFilter, crumb);</span>
+                        };
+<span class="cstat-no" title="statement not covered" >                        scope.removeAll = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var crumbs = angular.copy(scope.crumbs);</span>
+<span class="cstat-no" title="statement not covered" >                            crumbs.forEach(<span class="fstat-no" title="function not covered" >function (crumb) {</span></span>
+<span class="cstat-no" title="statement not covered" >                                crumb.skipApply = true;</span>
+<span class="cstat-no" title="statement not covered" >                                EventBus.publish(SAQS.Const.Events.removeFilter, crumb);</span>
+                            });
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.applyFilters);</span>
+                        };
+<span class="cstat-no" title="statement not covered" >                        EventBus.subscribe(SAQS.Const.Events.addFilter, scope, <span class="fstat-no" title="function not covered" >function (option) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var idx = _.findIndex(scope.crumbs, { key: option.key });</span>
+<span class="cstat-no" title="statement not covered" >                            if (idx &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >                                scope.crumbs.splice(idx, 1);</span>
+                            }
+<span class="cstat-no" title="statement not covered" >                            if (option.bcDisplay !== false) {</span>
+<span class="cstat-no" title="statement not covered" >                                scope.crumbs.push(option);</span>
+                            }
+                        });
+<span class="cstat-no" title="statement not covered" >                        EventBus.subscribe(SAQS.Const.Events.removeFilter, scope, <span class="fstat-no" title="function not covered" >function (option) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            scope.crumbs.splice(_.findIndex(scope.crumbs, { key: option.key }), 1);</span>
+                        });
+<span class="cstat-no" title="statement not covered" >                        EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, <span class="fstat-no" title="function not covered" >function (response) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            scope.itemCount = response.results.length;</span>
+<span class="cstat-no" title="statement not covered" >                            scope.totalItemCount = response.totalCount;</span>
+                        });
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (SAQS.Directives = {}));
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('paging', [
+            'EventBus',
+            'DB',
+<span class="fstat-no" title="function not covered" >            function (EventBus, DB) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.PAGING_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >                        scope.curPage = 1;</span>
+<span class="cstat-no" title="statement not covered" >                        scope.totalPages = 1;</span>
+<span class="cstat-no" title="statement not covered" >                        scope.first = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            DB.setPaging({</span>
+                                limit: paging.limit,
+                                offset: 0
+                            });
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.performSearch);</span>
+<span class="cstat-no" title="statement not covered" >                            scope.curPage = 1;</span>
+                        };
+<span class="cstat-no" title="statement not covered" >                        scope.prev = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            var newOffset = (paging.offset - paging.limit);</span>
+<span class="cstat-no" title="statement not covered" >                            DB.setPaging({</span>
+                                limit: paging.limit,
+                                offset: newOffset &lt; 0 ? 0 : newOffset
+                            });
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.performSearch);</span>
+<span class="cstat-no" title="statement not covered" >                            if (scope.curPage &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >                                scope.curPage -= 1;</span>
+                            }
+                        };
+<span class="cstat-no" title="statement not covered" >                        scope.next = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            var newOffset = (paging.offset + paging.limit);</span>
+<span class="cstat-no" title="statement not covered" >                            DB.setPaging({</span>
+                                limit: paging.limit,
+                                offset: newOffset &gt; scope.totalPages ? scope.totalPages : newOffset
+                            });
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.performSearch);</span>
+<span class="cstat-no" title="statement not covered" >                            if (scope.curPage &lt; scope.totalPages) {</span>
+<span class="cstat-no" title="statement not covered" >                                scope.curPage += 1;</span>
+                            }
+                        };
+                        // TODO: for some reason the API won't let me have an offset greater
+                        // then 990 - would need to look into why
+<span class="cstat-no" title="statement not covered" >                        scope.last = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            DB.setPaging({</span>
+                                limit: paging.limit,
+                                offset: 990
+                            });
+<span class="cstat-no" title="statement not covered" >                            EventBus.publish(SAQS.Const.Events.performSearch);</span>
+<span class="cstat-no" title="statement not covered" >                            scope.curPage = scope.totalPages - 1;</span>
+                        };
+<span class="cstat-no" title="statement not covered" >                        EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, <span class="fstat-no" title="function not covered" >function (response) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            scope.totalPages = Math.ceil(response.totalCount / paging.limit);</span>
+<span class="cstat-no" title="statement not covered" >                            if (response.results.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >                                scope.curPage = 0;</span>
+                            }
+                            else {
+<span class="cstat-no" title="statement not covered" >                                scope.curPage = (Math.floor(paging.offset / paging.limit) + 1);</span>
+                            }
+                        });
+<span class="cstat-no" title="statement not covered" >                        EventBus.subscribe(SAQS.Const.Events.applyFilters, scope, <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            var paging = DB.getPaging();</span>
+<span class="cstat-no" title="statement not covered" >                            DB.setPaging({</span>
+                                limit: paging.limit,
+                                offset: 0
+                            });
+<span class="cstat-no" title="statement not covered" >                            scope.curPage = 1;</span>
+                        });
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Directives = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('productFilter', [
+            '_',
+            'DB',
+            'EventBus',
+<span class="fstat-no" title="function not covered" >            function (_, DB, EventBus) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {
+                        filter: '='
+                    },
+                    templateUrl: Templates.PRODUCT_FILTER_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >                        scope.onChange = <span class="fstat-no" title="function not covered" >function (option, filter) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            switch (filter.type) {</span>
+                                case 'checkbox':
+                                    // If there are any options which are selected then add this filter
+                                    // otherwise it should be removed
+<span class="cstat-no" title="statement not covered" >                                    var event_1 = option.value === true ?</span>
+                                        SAQS.Const.Events.addFilter : SAQS.Const.Events.removeFilter;
+<span class="cstat-no" title="statement not covered" >                                    EventBus.publish(event_1, option);</span>
+<span class="cstat-no" title="statement not covered" >                                    break;</span>
+                            }
+                        };
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Directives = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('productList', [
+            '$window',
+            'DB',
+<span class="fstat-no" title="function not covered" >            function ($window, DB) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.PRODUCT_LIST_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >                        scope.products = DB.getProducts();</span>
+<span class="cstat-no" title="statement not covered" >                        scope.openProduct = <span class="fstat-no" title="function not covered" >function (product) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            if (product &amp;&amp; product.clickUri) {</span>
+<span class="cstat-no" title="statement not covered" >                                $window.open(product.clickUri);</span>
+                            }
+                        };
+<span class="cstat-no" title="statement not covered" >                        scope.favoriteProduct = <span class="fstat-no" title="function not covered" >function (product, $event) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            $event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >                            $event.stopPropagation();</span>
+<span class="cstat-no" title="statement not covered" >                            var itemKey = SAQS.Const.LocalStorage.FAVORITE_PRODUCTS;</span>
+<span class="cstat-no" title="statement not covered" >                            var favoritesStr = $window.localStorage.getItem(itemKey);</span>
+<span class="cstat-no" title="statement not covered" >                            var favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};</span>
+<span class="cstat-no" title="statement not covered" >                            if (product._favorite === true) {</span>
+<span class="cstat-no" title="statement not covered" >                                product._favorite = false;</span>
+<span class="cstat-no" title="statement not covered" >                                delete favorites[product.uniqueId];</span>
+                            }
+                            else {
+<span class="cstat-no" title="statement not covered" >                                product._favorite = true;</span>
+<span class="cstat-no" title="statement not covered" >                                favorites[product.uniqueId] = true;</span>
+                            }
+<span class="cstat-no" title="statement not covered" >                            $window.localStorage.setItem(itemKey, JSON.stringify(favorites));</span>
+                        };
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Directives = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('searchBar', [
+            'EventBus',
+            'Filter',
+<span class="fstat-no" title="function not covered" >            function (EventBus, Filter) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.SEARCH_BAR_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope, element) {</span>
+                        // run an initial blank search
+<span class="cstat-no" title="statement not covered" >                        EventBus.publish(SAQS.Const.Events.applyFilters);</span>
+<span class="cstat-no" title="statement not covered" >                        var mainSearchInput = element.find('input');</span>
+<span class="cstat-no" title="statement not covered" >                        mainSearchInput.bind('keydown', <span class="fstat-no" title="function not covered" >function (event) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            if (event.which === 13) {</span>
+<span class="cstat-no" title="statement not covered" >                                var searchTerm = mainSearchInput.val();</span>
+<span class="cstat-no" title="statement not covered" >                                EventBus.publish(SAQS.Const.Events.addFilter, {</span>
+                                    category: 'main-search',
+                                    key: 'main-search',
+                                    label: '',
+                                    bcDisplay: searchTerm,
+                                    multi: false,
+                                    value: searchTerm,
+                                    submitValue: searchTerm
+                                });
+<span class="cstat-no" title="statement not covered" >                                mainSearchInput.val('');</span>
+                            }
+                        });
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Directives = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('sideFilter', [
+<span class="fstat-no" title="function not covered" >            function () {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.SIDE_FILTER_TPL,
+                    link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >                        scope.filters = SAQS.Const.Filters.ALL_FILTERS;</span>
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Directives = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        var DB = (function () {
+<span class="fstat-no" title="function not covered" >            function DB($parse, _, EventBus) {</span>
+<span class="cstat-no" title="statement not covered" >                this.$parse = $parse;</span>
+<span class="cstat-no" title="statement not covered" >                this._ = _;</span>
+<span class="cstat-no" title="statement not covered" >                this.EventBus = EventBus;</span>
+<span class="cstat-no" title="statement not covered" >                self = this;</span>
+<span class="cstat-no" title="statement not covered" >                self._db = {</span>
+                    filters: {},
+                    products: [],
+                    sort: {
+                        field: 'tpmillesime',
+                        dir: SAQS.Const.Filters.Sort.DESC
+                    },
+                    paging: {
+                        offset: 0,
+                        limit: SAQS.Const.Paging.DEFAULT_LIMIT
+                    }
+                };
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.addFilter, self, self.addFilter);</span>
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.removeFilter, self, self.removeFilter);</span>
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.loadProducts, self, self.loadProducts);</span>
+            }
+            DB.prototype.addFilter = <span class="fstat-no" title="function not covered" >function (option) {</span>
+<span class="cstat-no" title="statement not covered" >                if (option) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (option.multi) {</span>
+<span class="cstat-no" title="statement not covered" >                        self._db.filters[option.category] = (self._db.filters[option.category] || []);</span>
+<span class="cstat-no" title="statement not covered" >                        self._db.filters[option.category].push(option);</span>
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        self._db.filters[option.category] = option;</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    self.EventBus.publish(SAQS.Const.Events.afterAddFilter, option);</span>
+<span class="cstat-no" title="statement not covered" >                    self.EventBus.publish(SAQS.Const.Events.applyFilters);</span>
+                }
+            };
+            DB.prototype.removeFilter = <span class="fstat-no" title="function not covered" >function (option) {</span>
+<span class="cstat-no" title="statement not covered" >                var filters = self._db.filters;</span>
+<span class="cstat-no" title="statement not covered" >                if (filters &amp;&amp; filters[option.category]) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (option.multi) {</span>
+<span class="cstat-no" title="statement not covered" >                        var options = filters[option.category];</span>
+<span class="cstat-no" title="statement not covered" >                        options.splice(_.findIndex(options, { key: option.key }), 1);</span>
+                        // If there are no more options selected remove the category
+<span class="cstat-no" title="statement not covered" >                        if (options.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >                            delete filters[option.category];</span>
+                        }
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        delete filters[option.category];</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    self.EventBus.publish(SAQS.Const.Events.afterRemoveFilter, option);</span>
+<span class="cstat-no" title="statement not covered" >                    if (option.skipApply !== true) {</span>
+<span class="cstat-no" title="statement not covered" >                        self.EventBus.publish(SAQS.Const.Events.applyFilters);</span>
+                    }
+                }
+                // TODO: This is not good but currently using SAQS.Const.Filters as the src
+                // for the product-filters component. It should use DB instead
+<span class="cstat-no" title="statement not covered" >                var idx = self._.findIndex(SAQS.Const.Filters.ALL_FILTERS, { category: option.category });</span>
+<span class="cstat-no" title="statement not covered" >                var _filter = SAQS.Const.Filters.ALL_FILTERS[idx];</span>
+<span class="cstat-no" title="statement not covered" >                if (_filter) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (option.multi) {</span>
+<span class="cstat-no" title="statement not covered" >                        idx = self._.findIndex(_filter.options, { key: option.key });</span>
+<span class="cstat-no" title="statement not covered" >                        if (_filter.options[idx]) {</span>
+<span class="cstat-no" title="statement not covered" >                            switch (_filter.type) {</span>
+                                case 'checkbox':
+<span class="cstat-no" title="statement not covered" >                                    _filter.options[idx].value = false;</span>
+<span class="cstat-no" title="statement not covered" >                                    break;</span>
+                            }
+                        }
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        switch (_filter.type) {</span>
+                            case 'checkbox':
+<span class="cstat-no" title="statement not covered" >                                _filter.options[0].value = false;</span>
+<span class="cstat-no" title="statement not covered" >                                break;</span>
+                        }
+                    }
+                }
+            };
+            DB.prototype.loadProducts = <span class="fstat-no" title="function not covered" >function (response) {</span>
+<span class="cstat-no" title="statement not covered" >                var newProducts = response.results;</span>
+<span class="cstat-no" title="statement not covered" >                var products = self.getProducts();</span>
+                // clear the products array and push in the new products
+                // but keep the same reference!!
+<span class="cstat-no" title="statement not covered" >                products.splice(0, products.length);</span>
+<span class="cstat-no" title="statement not covered" >                products.push.apply(products, newProducts);</span>
+            };
+            DB.prototype.getFilters = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return self.$parse('_db.filters')(self);</span>
+            };
+            DB.prototype.getProducts = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return self.$parse('_db.products')(self);</span>
+            };
+            DB.prototype.getSorting = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return self.$parse('_db.sort')(self);</span>
+            };
+            DB.prototype.getPaging = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return self.$parse('_db.paging')(self);</span>
+            };
+            DB.prototype.setPaging = <span class="fstat-no" title="function not covered" >function (paging) {</span>
+<span class="cstat-no" title="statement not covered" >                self._db.paging = paging;</span>
+            };
+            return DB;
+        }());
+        DB.$inject = [
+            '$parse',
+            '_',
+            'EventBus'
+        ];
+        Services.DB = DB;
+        angular.module('saqs.services').service('DB', DB);
+    })(Services = SAQS.Services || (SAQS.Services = {}));
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        /**
+         * This is a very simple EventBus Implementation for
+         * subscribe/publish capabilities
+         */
+        var EventBus = (function () {
+<span class="fstat-no" title="function not covered" >            function EventBus() {</span>
+<span class="cstat-no" title="statement not covered" >                self = this;</span>
+<span class="cstat-no" title="statement not covered" >                self._topics = {};</span>
+<span class="cstat-no" title="statement not covered" >                self._subUid = -1;</span>
+            }
+            EventBus.prototype.subscribe = <span class="fstat-no" title="function not covered" >function (topic, scope, handler, priority) {</span>
+<span class="cstat-no" title="statement not covered" >                if (!self._topics[topic]) {</span>
+<span class="cstat-no" title="statement not covered" >                    self._topics[topic] = [];</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var token = (++self._subUid).toString();</span>
+<span class="cstat-no" title="statement not covered" >                self._topics[topic].push({</span>
+                    token: token,
+                    handler: handler,
+                    scope: scope,
+                    priority: priority || 10000
+                });
+<span class="cstat-no" title="statement not covered" >                return token;</span>
+            };
+            EventBus.prototype.publish = <span class="fstat-no" title="function not covered" >function (topic, args) {</span>
+<span class="cstat-no" title="statement not covered" >                if (!self._topics[topic]) {</span>
+<span class="cstat-no" title="statement not covered" >                    return false;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var subscribers = self._topics[topic];</span>
+<span class="cstat-no" title="statement not covered" >                var len = subscribers ? subscribers.length : 0;</span>
+<span class="cstat-no" title="statement not covered" >                if (len &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    subscribers.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                        return a.priority - b.priority;</span>
+                    }).forEach(<span class="fstat-no" title="function not covered" >function (subscriber) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (angular.isFunction(subscriber.handler)) {</span>
+<span class="cstat-no" title="statement not covered" >                            subscriber.handler.call(subscriber.scope, args);</span>
+                        }
+                    });
+                }
+<span class="cstat-no" title="statement not covered" >                return true;</span>
+            };
+            EventBus.prototype.unsubscribe = <span class="fstat-no" title="function not covered" >function (token) {</span>
+<span class="cstat-no" title="statement not covered" >                for (var topic in self._topics) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (self._topics[topic]) {</span>
+<span class="cstat-no" title="statement not covered" >                        for (var i = 0, j = self._topics[topic].length; i &lt; j; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                            if (self._topics[topic][i].token === token) {</span>
+<span class="cstat-no" title="statement not covered" >                                self._topics[topic].splice(i, 1);</span>
+<span class="cstat-no" title="statement not covered" >                                return true;</span>
+                            }
+                        }
+                    }
+                }
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+            };
+            return EventBus;
+        }());
+        Services.EventBus = EventBus;
+        angular.module('saqs.services').service('EventBus', EventBus);
+    })(Services = SAQS.Services || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Services = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        var Filter = (function () {
+<span class="fstat-no" title="function not covered" >            function Filter($rootScope, EventBus, DB, Product) {</span>
+<span class="cstat-no" title="statement not covered" >                this.$rootScope = $rootScope;</span>
+<span class="cstat-no" title="statement not covered" >                this.EventBus = EventBus;</span>
+<span class="cstat-no" title="statement not covered" >                this.DB = DB;</span>
+<span class="cstat-no" title="statement not covered" >                this.Product = Product;</span>
+<span class="cstat-no" title="statement not covered" >                self = this;</span>
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.applyFilters, self, self.applyFilters);</span>
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.performSearch, self, self.performSearch);</span>
+            }
+            Filter.prototype.buildSearchReq = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                var filters = self.DB.getFilters();</span>
+<span class="cstat-no" title="statement not covered" >                var searchFilters = Object.keys(filters).map(<span class="fstat-no" title="function not covered" >function (key) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    return filters[key];</span>
+                });
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    filters: searchFilters,
+                    sort: self.DB.getSorting(),
+                    paging: self.DB.getPaging()
+                };
+            };
+            Filter.prototype.performSearch = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                self.$rootScope.loading = true;</span>
+<span class="cstat-no" title="statement not covered" >                self.Product.search(self.buildSearchReq())</span>
+                    .then(<span class="fstat-no" title="function not covered" >function (searchRes) {</span>
+<span class="cstat-no" title="statement not covered" >                    self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes);</span>
+<span class="cstat-no" title="statement not covered" >                    self.$rootScope.loading = false;</span>
+                })["catch"](<span class="fstat-no" title="function not covered" >function (error) {</span>
+<span class="cstat-no" title="statement not covered" >                    alert('Error searching for products');</span>
+<span class="cstat-no" title="statement not covered" >                    self.$rootScope.loading = false;</span>
+                });
+            };
+            Filter.prototype.applyFilters = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                self.performSearch();</span>
+            };
+            return Filter;
+        }());
+        Filter.$inject = [
+            '$rootScope',
+            'EventBus',
+            'DB',
+            'Product'
+        ];
+        Services.Filter = Filter;
+        angular.module('saqs.services').service('Filter', Filter);
+    })(Services = SAQS.Services || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Services = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        var Product = (function () {
+<span class="fstat-no" title="function not covered" >            function Product($window, $q, $http, EventBus, ReqBuilder) {</span>
+<span class="cstat-no" title="statement not covered" >                this.$window = $window;</span>
+<span class="cstat-no" title="statement not covered" >                this.$q = $q;</span>
+<span class="cstat-no" title="statement not covered" >                this.$http = $http;</span>
+<span class="cstat-no" title="statement not covered" >                this.EventBus = EventBus;</span>
+<span class="cstat-no" title="statement not covered" >                this.ReqBuilder = ReqBuilder;</span>
+<span class="cstat-no" title="statement not covered" >                self = this;</span>
+<span class="cstat-no" title="statement not covered" >                EventBus.subscribe(SAQS.Const.Events.performSearch, self, self.performSearch);</span>
+            }
+            Product.prototype.search = <span class="fstat-no" title="function not covered" >function (searchReq) {</span>
+<span class="cstat-no" title="statement not covered" >                var deferred = self.$q.defer();</span>
+<span class="cstat-no" title="statement not covered" >                var uri = self.ReqBuilder.getUri(searchReq);</span>
+<span class="cstat-no" title="statement not covered" >                var data = self.ReqBuilder.getData(searchReq);</span>
+<span class="cstat-no" title="statement not covered" >                self.$http.post(uri, data)</span>
+                    .then(<span class="fstat-no" title="function not covered" >function (result) {</span>
+<span class="cstat-no" title="statement not covered" >                    self.enrich(result.data);</span>
+<span class="cstat-no" title="statement not covered" >                    deferred.resolve(result.data);</span>
+                })["catch"](<span class="fstat-no" title="function not covered" >function (error) {</span>
+<span class="cstat-no" title="statement not covered" >                    deferred.reject(error);</span>
+                });
+<span class="cstat-no" title="statement not covered" >                return deferred.promise;</span>
+            };
+            Product.prototype.enrich = <span class="fstat-no" title="function not covered" >function (searchRes) {</span>
+<span class="cstat-no" title="statement not covered" >                var favoritesKey = SAQS.Const.LocalStorage.FAVORITE_PRODUCTS;</span>
+<span class="cstat-no" title="statement not covered" >                var favoritesStr = self.$window.localStorage.getItem(favoritesKey);</span>
+<span class="cstat-no" title="statement not covered" >                var favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};</span>
+<span class="cstat-no" title="statement not covered" >                searchRes.results.forEach(<span class="fstat-no" title="function not covered" >function (product) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    product._favorite = (favorites[product.uniqueId]) ? true : false;</span>
+                    // use HTTPS urls for the image thumbnails
+<span class="cstat-no" title="statement not covered" >                    product.raw.tpthumbnailuri = product.raw.tpthumbnailuri.replace('http', 'https');</span>
+                });
+            };
+            return Product;
+        }());
+        Product.$inject = [
+            '$window',
+            '$q',
+            '$http',
+            'EventBus',
+            'ReqBuilder'
+        ];
+        Services.Product = Product;
+        angular.module('saqs.services').service('Product', Product);
+    })(Services = SAQS.Services || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Services = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        var ReqBuilder = (function () {
+<span class="fstat-no" title="function not covered" >            function ReqBuilder(_) {</span>
+<span class="cstat-no" title="statement not covered" >                this._ = _;</span>
+<span class="cstat-no" title="statement not covered" >                this.defaultSearchReqData = {</span>
+                    aq: '',
+                    searchHub: 'default',
+                    language: 'en',
+                    pipeline: 'default',
+                    firstResult: 0,
+                    numberOfResults: SAQS.Const.Paging.DEFAULT_LIMIT,
+                    excerptLength: 200,
+                    filterField: null,
+                    enableDidYouMean: true,
+                    sortCriteria: 'fieldDescending',
+                    sortField: '@tpmillesime',
+                    queryFunctions: [],
+                    rankingFunctions: [],
+                    retrieveFirstSentences: true,
+                    timezone: 'America/New_York',
+                    enableDuplicateFiltering: false,
+                    enableCollaborativeRating: false
+                };
+<span class="cstat-no" title="statement not covered" >                self = this;</span>
+            }
+            ReqBuilder.prototype.getUri = <span class="fstat-no" title="function not covered" >function (searchReq) {</span>
+<span class="cstat-no" title="statement not covered" >                return SAQS.Const.API.SEARCH_URI + "?" + self.getApiKey();</span>
+            };
+            ReqBuilder.prototype.getData = <span class="fstat-no" title="function not covered" >function (searchReq) {</span>
+<span class="cstat-no" title="statement not covered" >                var data = angular.extend({}, self.defaultSearchReqData, {</span>
+                    aq: self.getFilters(searchReq.filters),
+                    q: self.getMainSearch(searchReq.filters),
+                    sortField: "@" + searchReq.sort.field,
+                    sortCriteria: searchReq.sort.dir,
+                    firstResult: searchReq.paging.offset,
+                    numberOfResults: searchReq.paging.limit
+                });
+<span class="cstat-no" title="statement not covered" >                return data;</span>
+            };
+            ReqBuilder.prototype.getApiKey = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                var ACCESS_TOKEN = window.ACCESS_TOKEN || '';</span>
+<span class="cstat-no" title="statement not covered" >                return "access_token=" + ACCESS_TOKEN;</span>
+            };
+            ReqBuilder.prototype.getMainSearch = <span class="fstat-no" title="function not covered" >function (filters) {</span>
+<span class="cstat-no" title="statement not covered" >                return (self._.find(filters, { key: 'main-search' }) || {}).submitValue;</span>
+            };
+            ReqBuilder.prototype.getFilters = <span class="fstat-no" title="function not covered" >function (filters) {</span>
+<span class="cstat-no" title="statement not covered" >                var _formattedFilters = {};</span>
+<span class="cstat-no" title="statement not covered" >                filters.forEach(<span class="fstat-no" title="function not covered" >function (filterCategory) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    if (angular.isArray(filterCategory) &amp;&amp; filterCategory.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                        _formattedFilters[filterCategory[0].category] = filterCategory;</span>
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        _formattedFilters[filterCategory.category] = filterCategory;</span>
+                    }
+                });
+<span class="cstat-no" title="statement not covered" >                var _categories = Object.keys(_formattedFilters);</span>
+<span class="cstat-no" title="statement not covered" >                return _categories.reduce(<span class="fstat-no" title="function not covered" >function (qp, category) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    if (category !== 'main-search') {</span>
+<span class="cstat-no" title="statement not covered" >                        var filter_1 = _formattedFilters[category];</span>
+<span class="cstat-no" title="statement not covered" >                        if (angular.isArray(filter_1) &amp;&amp; filter_1.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                            if (filter_1.length &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >                                qp += "(@" + category + "==(";</span>
+<span class="cstat-no" title="statement not covered" >                                filter_1.forEach(<span class="fstat-no" title="function not covered" >function (option, i) {</span></span>
+<span class="cstat-no" title="statement not covered" >                                    qp += option.submitValue;</span>
+<span class="cstat-no" title="statement not covered" >                                    qp += (i &lt; (filter_1.length - 1)) ? ',' : '';</span>
+                                });
+<span class="cstat-no" title="statement not covered" >                                qp += '))';</span>
+                            }
+                            else {
+<span class="cstat-no" title="statement not covered" >                                qp += "(@" + category + "==" + filter_1[0].submitValue + ")";</span>
+                            }
+                        }
+                        else {
+<span class="cstat-no" title="statement not covered" >                            qp += "(@" + category + "==" + filter_1.submitValue + ")";</span>
+                        }
+                    }
+<span class="cstat-no" title="statement not covered" >                    return qp;</span>
+                }, '');
+            };
+            return ReqBuilder;
+        }());
+        ReqBuilder.$inject = [
+            '_'
+        ];
+        Services.ReqBuilder = ReqBuilder;
+        angular.module('saqs.services').service('ReqBuilder', ReqBuilder);
+    })(Services = SAQS.Services || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS.Services = {})</span>);
+})(SAQS || (<span class="branch-1 cbranch-no" title="branch not covered" >SAQS = {})</span>);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Dec 11 2016 17:26:04 GMT-0500 (EST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
