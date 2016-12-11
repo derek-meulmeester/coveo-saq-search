@@ -1,0 +1,18 @@
+<div class="product-list">
+    <div class="product-list-container">
+        <div ng-repeat="product in products" class="product-card" ng-click="openProduct(product)">
+            <h3>
+                <i ng-class="{'fa-star': product._favorite, 'fa-star-o': !product._favorite}"
+                   class="fa" ng-click="favoriteProduct(product, $event)"></i>
+                <span class="separator">|</span>
+                {{ product.title }}
+                <small>{{ product.raw.tpprixnormal }}</small>
+            </h3>
+            <h5 class="product-region">{{ product.raw.tpregion }} | {{ product.raw.tppays || ' ' }}</h5>
+            <div class="product-details">
+                <img ng-src="{{ product.raw.tpthumbnailuri }}" class="product-thumbnail"/>
+                <p class="product-notes">{{ product.raw.tpnotededegustation || product.excerpt.split('...')[0] }}</p>
+            </div>
+        </div>
+    </div>
+</div>
