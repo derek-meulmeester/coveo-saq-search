@@ -15,7 +15,7 @@ gulp build:local
 gulp build:dist
 
 # run unit tests
-gulp test
+npm test
 ```
 
 ## Install
