@@ -1,0 +1,20 @@
+.side-filter {
+    float: left;
+    width: $side-filter-width-inner;
+    height: 100%;
+    padding: $pad-md $pad-sm;
+    overflow-y: auto;
+
+    .title {
+        color: #212121;
+        font-weight: bold;
+        font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+        font-size: 81.25%;
+    }
+
+    ul {
+        border-bottom: 1px solid #DDD;
+        margin-top: 0;
+        padding: 10px 0;
+    }
+}

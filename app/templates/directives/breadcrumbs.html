@@ -1,0 +1,6 @@
+<div class="breadcrumb-container">
+    <div class="crumb" ng-repeat="crumb in crumbs">
+        {{ crumb.bcDisplay || crumb.label }}
+        <i class="fa fa-close" ng-click="removeCrumb(crumb)"></i>
+    </div>
+</div>

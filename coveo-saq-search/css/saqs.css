@@ -1,0 +1,144 @@
+/*
+    Color Scheme
+ */
+body {
+  height: 100%;
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2; }
+
+.main-view {
+  margin-left: 260px;
+  padding: 0 20px; }
+
+.search-bar {
+  padding: 10px 40px;
+  background-color: #4285f4;
+  color: #FFF;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28); }
+
+.main-search {
+  display: flex; }
+  .main-search input {
+    margin: 0 50px;
+    flex: 1;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: none;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #FFF; }
+  .main-search input:focus {
+    background-color: #FFF;
+    color: #000; }
+
+.coveo-logoo {
+  width: 200px;
+  height: 35px;
+  background-image: url(/coveo-saq-search/img/coveo-logo.svg);
+  background-repeat: no-repeat; }
+
+.menu-actions {
+  width: 200px; }
+  .menu-actions i {
+    font-size: 25px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    float: right; }
+  .menu-actions i:active {
+    background-color: #336ccc; }
+
+::-webkit-input-placeholder {
+  color: #FFF; }
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #FFF; }
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #FFF; }
+
+:-ms-input-placeholder {
+  color: #FFF; }
+
+.side-filter {
+  float: left;
+  width: 240px;
+  height: 100%;
+  padding: 20px 10px;
+  overflow-y: auto; }
+  .side-filter .title {
+    color: #212121;
+    font-weight: bold;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 81.25%; }
+  .side-filter ul {
+    border-bottom: 1px solid #DDD;
+    margin-top: 0;
+    padding: 10px 0; }
+
+.product-list {
+  overflow: auto;
+  height: 80vh; }
+
+.product-list-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+
+.product-card {
+  flex-grow: 1;
+  min-width: 300px;
+  max-width: 400px;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #FFF;
+  box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  cursor: pointer; }
+
+.product-card:hover {
+  box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.24); }
+
+.product-region {
+  color: #484848; }
+
+.product-details {
+  display: flex; }
+
+.product-thumbnail {
+  height: 200px; }
+
+.product-notes {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 3px;
+  font-size: 12px; }
+
+.checkbox-label {
+  font-size: 12px; }
+
+.breadcrumb-container {
+  padding: 20px 5px; }
+
+.crumb {
+  display: inline;
+  padding: 5px 10px;
+  margin: 5px;
+  background-color: #cecece;
+  border-radius: 5px;
+  color: #616161;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default; }
+  .crumb i {
+    cursor: pointer;
+    margin-left: 5px; }
