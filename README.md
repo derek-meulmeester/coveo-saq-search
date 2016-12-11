@@ -17,3 +17,14 @@ gulp build:dist
 # run unit tests
 gulp test
 ```
+
+## Install
+
+```bash
+# get the latest
+cd ~/git/coveo-saq-search
+git pull
+
+# install using the install script
+./install.sh
+```
