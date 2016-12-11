@@ -1,4 +1,6 @@
 .search-bar {
+    z-index: 100;
+    position: relative;
     padding: $pad-sm $pad-xlg;
     background-color: $color-p1;
     color: $white;

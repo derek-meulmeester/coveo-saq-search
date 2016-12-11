@@ -6,7 +6,11 @@ module SAQS.Services {
 
     export class ReqBuilder {
 
-        constructor() {
+        static $inject = [
+            '_'
+        ];
+
+        constructor(private _: _.LoDashStatic) {
             self = this;
         }
 
@@ -16,7 +20,7 @@ module SAQS.Services {
             language: 'en',
             pipeline: 'default',
             firstResult: 0,
-            numberOfResults: 10,
+            numberOfResults: SAQS.Const.Paging.DEFAULT_LIMIT,
             excerptLength: 200,
             filterField: null,
             enableDidYouMean: true,
@@ -31,12 +35,13 @@ module SAQS.Services {
         };
 
         public getUri(searchReq: Models.SearchReq): string {
-            return `${SAQS.Const.API.SEARCH_URI}?${self.getApiKey()}&errorsAsSuccess=1`;
+            return `${SAQS.Const.API.SEARCH_URI}?${self.getApiKey()}`;
         }
 
         public getData(searchReq: Models.SearchReq): Models.SearchReqData {
             let data = angular.extend({}, self.defaultSearchReqData, {
                 aq: self.getFilters(searchReq.filters),
+                q: self.getMainSearch(searchReq.filters),
                 sortField: `@${searchReq.sort.field}`,
                 sortCriteria: searchReq.sort.dir,
                 firstResult: searchReq.paging.offset,
@@ -51,9 +56,42 @@ module SAQS.Services {
             return `access_token=${ACCESS_TOKEN}`;
         }
 
+        private getMainSearch(filters: Models.SearchFilter[]): string {
+            return (<Models.ProductFilterOption>(self._.find(filters, {key: 'main-search'}) || {})).submitValue;
+        }
+
         private getFilters(filters: Models.SearchFilter[]): string {
-            return filters.reduce((qp: any, filter: Models.SearchFilter) => {
-                qp += `(@${filter.category}==${filter.value})`;
+            let _formattedFilters: any = {};
+
+            filters.forEach((filterCategory: any) => {
+                if (angular.isArray(filterCategory) && filterCategory.length > 0) {
+                    _formattedFilters[filterCategory[0].category] = filterCategory;
+                } else {
+                    _formattedFilters[filterCategory.category] = filterCategory;
+                }
+            });
+
+            let _categories: string[] = Object.keys(_formattedFilters);
+            return _categories.reduce((qp: any, category: string) => {
+                if (category !== 'main-search') {
+                    let filter: any = _formattedFilters[category];
+
+                    if (angular.isArray(filter) && filter.length > 0) {
+                        if (filter.length > 1) {
+                            qp += `(@${category}==(`;
+                            filter.forEach((option, i) => {
+                                qp += option.submitValue;
+                                qp += (i < (filter.length - 1)) ? ',' : '';
+                            });
+                            qp += '))';
+                        } else {
+                            qp += `(@${category}==${filter[0].submitValue})`;
+                        }
+                    } else {
+                        qp += `(@${category}==${filter.submitValue})`;
+                    }
+                }
+
                 return qp;
             }, '');
         }

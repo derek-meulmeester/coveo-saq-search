@@ -30,7 +30,8 @@ module SAQS.Directives {
                                 label: '',
                                 bcDisplay: searchTerm,
                                 multi: false,
-                                value: searchTerm
+                                value: searchTerm,
+                                submitValue: searchTerm
                             });
 
                             mainSearchInput.val('');

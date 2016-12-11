@@ -23,6 +23,7 @@ var SAQS;
             Events.applyFilters = 'filter.apply';
             Events.afterApplyFilters = 'filter.apply.after';
             Events.loadProducts = 'product.load';
+            Events.performSearch = 'search.load';
         })(Events = Const.Events || (Const.Events = {}));
     })(Const = SAQS.Const || (SAQS.Const = {}));
 })(SAQS || (SAQS = {}));
@@ -40,57 +41,78 @@ var SAQS;
             Filters.ON_SPECIAL = {
                 title: 'On Special',
                 type: 'checkbox',
-                category: 'tpspecial',
+                category: 'tpenspecial',
                 options: [{
-                        category: 'tpspecial',
+                        category: 'tpenspecial',
                         key: 'on-special',
                         label: 'Only',
                         bcDisplay: 'On Special',
                         value: false,
+                        submitValue: true,
                         multi: false
                     }]
             };
-            Filters.PRICE = {
-                title: 'Price Range',
-                type: 'range',
-                category: 'tpprice',
-                options: [{
-                        category: 'tpprice',
-                        key: 'price-range',
-                        label: '',
-                        multi: false,
-                        value: {
-                            min: 0,
-                            max: 1000
-                        }
-                    }]
-            };
+            // TODO: Add Price Filter
+            // export const PRICE: Models.ProductFilter = {
+            //     title: 'Price Range',
+            //     type: 'range',
+            //     category: 'tpprice',
+            //     options: [{
+            //         category: 'tpprice',
+            //         key: 'price-range',
+            //         label: '',
+            //         submitValue: true,
+            //         multi: false,
+            //         value: {
+            //             min: 0,
+            //             max: 1000
+            //         }
+            //     }]
+            // };
             Filters.CATEGORY = {
                 title: 'Category',
                 type: 'checkbox',
-                category: 'tptype',
+                category: 'tpcategorie',
                 options: [{
-                        category: 'tptype',
+                        category: 'tpcategorie',
                         key: 'type_red-wine',
                         label: 'Red Wine',
                         value: false,
+                        submitValue: '"Vin rouge"',
                         multi: true
                     }, {
-                        category: 'tptype',
+                        category: 'tpcategorie',
                         key: 'type_white-wine',
                         label: 'White Wine',
+                        submitValue: '"Vin blanc"',
                         value: false,
                         multi: true
                     }, {
-                        category: 'tptype',
+                        category: 'tpcategorie',
+                        key: 'type_rose',
+                        label: 'Rosé',
+                        submitValue: '"Vin rosé"',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
+                        key: 'type_porto',
+                        label: 'Porto',
+                        submitValue: 'Porto',
+                        value: false,
+                        multi: true
+                    }, {
+                        category: 'tpcategorie',
                         key: 'type_whisky',
                         label: 'Whisky',
+                        submitValue: 'Whisky',
                         value: false,
                         multi: true
                     }, {
-                        category: 'tptype',
-                        key: 'type_bourbon',
-                        label: 'Bourbon',
+                        category: 'tpcategorie',
+                        key: 'type_dry-gin',
+                        label: 'Dry Gin',
+                        submitValue: '"Dry gin"',
                         value: false,
                         multi: true
                     }]
@@ -104,12 +126,42 @@ var SAQS;
                         key: 'region_california',
                         label: 'California',
                         value: false,
+                        submitValue: 'californie',
                         multi: true
                     }, {
                         category: 'tpregion',
                         key: 'region_toscane',
                         label: 'Toscane',
                         value: false,
+                        submitValue: 'toscane',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_bourgogne',
+                        label: 'Bourgogne',
+                        value: false,
+                        submitValue: 'Bourgogne',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_bordeaux',
+                        label: 'Bordeaux',
+                        value: false,
+                        submitValue: 'Bordeaux',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_quebec',
+                        label: 'Québec',
+                        value: false,
+                        submitValue: '"Québec"',
+                        multi: true
+                    }, {
+                        category: 'tpregion',
+                        key: 'region_vallee-du-rhone',
+                        label: 'Vallée du Rhône',
+                        value: false,
+                        submitValue: '"Vallée du Rhône"',
                         multi: true
                     }]
             };
@@ -122,29 +174,64 @@ var SAQS;
                         key: 'country_france',
                         label: 'France',
                         value: false,
+                        submitValue: 'france',
                         multi: true
                     }, {
                         category: 'tppays',
                         key: 'country_us',
                         label: 'U.S.',
                         value: false,
+                        submitValue: 'etats-unis',
                         multi: true
                     }, {
                         category: 'tppays',
                         key: 'country_italy',
                         label: 'Italy',
                         value: false,
+                        submitValue: 'italie',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_canada',
+                        label: 'Canada',
+                        value: false,
+                        submitValue: 'Canada',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_spain',
+                        label: 'Spain',
+                        value: false,
+                        submitValue: 'Espagne',
+                        multi: true
+                    }, {
+                        category: 'tppays',
+                        key: 'country_portugal',
+                        label: 'Portugal',
+                        value: false,
+                        submitValue: 'Portugal',
                         multi: true
                     }]
             };
             Filters.ALL_FILTERS = [
                 Filters.ON_SPECIAL,
-                Filters.PRICE,
+                //PRICE,
                 Filters.CATEGORY,
                 Filters.REGION,
                 Filters.COUNTRY
             ];
         })(Filters = Const.Filters || (Const.Filters = {}));
+    })(Const = SAQS.Const || (SAQS.Const = {}));
+})(SAQS || (SAQS = {}));
+
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
+        var Paging;
+        (function (Paging) {
+            Paging.DEFAULT_LIMIT = 12;
+        })(Paging = Const.Paging || (Const.Paging = {}));
     })(Const = SAQS.Const || (SAQS.Const = {}));
 })(SAQS || (SAQS = {}));
 
@@ -279,7 +366,7 @@ var SAQS;
                                 limit: paging.limit,
                                 offset: 0
                             });
-                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            EventBus.publish(SAQS.Const.Events.performSearch);
                             scope.curPage = 1;
                         };
                         scope.prev = function () {
@@ -289,7 +376,7 @@ var SAQS;
                                 limit: paging.limit,
                                 offset: newOffset < 0 ? 0 : newOffset
                             });
-                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            EventBus.publish(SAQS.Const.Events.performSearch);
                             if (scope.curPage > 1) {
                                 scope.curPage -= 1;
                             }
@@ -301,7 +388,7 @@ var SAQS;
                                 limit: paging.limit,
                                 offset: newOffset > scope.totalPages ? scope.totalPages : newOffset
                             });
-                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            EventBus.publish(SAQS.Const.Events.performSearch);
                             if (scope.curPage < scope.totalPages) {
                                 scope.curPage += 1;
                             }
@@ -314,7 +401,7 @@ var SAQS;
                                 limit: paging.limit,
                                 offset: 990
                             });
-                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            EventBus.publish(SAQS.Const.Events.performSearch);
                             scope.curPage = scope.totalPages - 1;
                         };
                         EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, function (response) {
@@ -326,6 +413,14 @@ var SAQS;
                             else {
                                 scope.curPage = (Math.floor(paging.offset / paging.limit) + 1);
                             }
+                        });
+                        EventBus.subscribe(SAQS.Const.Events.applyFilters, scope, function () {
+                            var paging = DB.getPaging();
+                            DB.setPaging({
+                                limit: paging.limit,
+                                offset: 0
+                            });
+                            scope.curPage = 1;
                         });
                     }
                 };
@@ -422,7 +517,8 @@ var SAQS;
                                     label: '',
                                     bcDisplay: searchTerm,
                                     multi: false,
-                                    value: searchTerm
+                                    value: searchTerm,
+                                    submitValue: searchTerm
                                 });
                                 mainSearchInput.val('');
                             }
@@ -474,7 +570,7 @@ var SAQS;
                     },
                     paging: {
                         offset: 0,
-                        limit: 10
+                        limit: SAQS.Const.Paging.DEFAULT_LIMIT
                     }
                 };
                 EventBus.subscribe(SAQS.Const.Events.addFilter, self, self.addFilter);
@@ -643,33 +739,44 @@ var SAQS;
     (function (Services) {
         var self;
         var Filter = (function () {
-            function Filter(EventBus, DB, Product) {
+            function Filter($rootScope, EventBus, DB, Product) {
+                this.$rootScope = $rootScope;
                 this.EventBus = EventBus;
                 this.DB = DB;
                 this.Product = Product;
                 self = this;
                 EventBus.subscribe(SAQS.Const.Events.applyFilters, self, self.applyFilters);
+                EventBus.subscribe(SAQS.Const.Events.performSearch, self, self.performSearch);
             }
-            Filter.prototype.applyFilters = function () {
+            Filter.prototype.buildSearchReq = function () {
                 var filters = self.DB.getFilters();
                 var searchFilters = Object.keys(filters).map(function (key) {
                     return filters[key];
                 });
-                var searchReq = {
+                return {
                     filters: searchFilters,
                     sort: self.DB.getSorting(),
                     paging: self.DB.getPaging()
                 };
-                self.Product.search(searchReq)
+            };
+            Filter.prototype.performSearch = function () {
+                self.$rootScope.loading = true;
+                self.Product.search(self.buildSearchReq())
                     .then(function (searchRes) {
                     self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes);
+                    self.$rootScope.loading = false;
                 })["catch"](function (error) {
                     alert('Error searching for products');
+                    self.$rootScope.loading = false;
                 });
+            };
+            Filter.prototype.applyFilters = function () {
+                self.performSearch();
             };
             return Filter;
         }());
         Filter.$inject = [
+            '$rootScope',
             'EventBus',
             'DB',
             'Product'
@@ -691,6 +798,7 @@ var SAQS;
                 this.EventBus = EventBus;
                 this.ReqBuilder = ReqBuilder;
                 self = this;
+                EventBus.subscribe(SAQS.Const.Events.performSearch, self, self.performSearch);
             }
             Product.prototype.search = function (searchReq) {
                 var deferred = self.$q.defer();
@@ -723,14 +831,15 @@ var SAQS;
     (function (Services) {
         var self;
         var ReqBuilder = (function () {
-            function ReqBuilder() {
+            function ReqBuilder(_) {
+                this._ = _;
                 this.defaultSearchReqData = {
                     aq: '',
                     searchHub: 'default',
                     language: 'en',
                     pipeline: 'default',
                     firstResult: 0,
-                    numberOfResults: 10,
+                    numberOfResults: SAQS.Const.Paging.DEFAULT_LIMIT,
                     excerptLength: 200,
                     filterField: null,
                     enableDidYouMean: true,
@@ -746,11 +855,12 @@ var SAQS;
                 self = this;
             }
             ReqBuilder.prototype.getUri = function (searchReq) {
-                return SAQS.Const.API.SEARCH_URI + "?" + self.getApiKey() + "&errorsAsSuccess=1";
+                return SAQS.Const.API.SEARCH_URI + "?" + self.getApiKey();
             };
             ReqBuilder.prototype.getData = function (searchReq) {
                 var data = angular.extend({}, self.defaultSearchReqData, {
                     aq: self.getFilters(searchReq.filters),
+                    q: self.getMainSearch(searchReq.filters),
                     sortField: "@" + searchReq.sort.field,
                     sortCriteria: searchReq.sort.dir,
                     firstResult: searchReq.paging.offset,
@@ -762,14 +872,48 @@ var SAQS;
                 var ACCESS_TOKEN = window.ACCESS_TOKEN || '';
                 return "access_token=" + ACCESS_TOKEN;
             };
+            ReqBuilder.prototype.getMainSearch = function (filters) {
+                return (self._.find(filters, { key: 'main-search' }) || {}).submitValue;
+            };
             ReqBuilder.prototype.getFilters = function (filters) {
-                return filters.reduce(function (qp, filter) {
-                    qp += "(@" + filter.category + "==" + filter.value + ")";
+                var _formattedFilters = {};
+                filters.forEach(function (filterCategory) {
+                    if (angular.isArray(filterCategory) && filterCategory.length > 0) {
+                        _formattedFilters[filterCategory[0].category] = filterCategory;
+                    }
+                    else {
+                        _formattedFilters[filterCategory.category] = filterCategory;
+                    }
+                });
+                var _categories = Object.keys(_formattedFilters);
+                return _categories.reduce(function (qp, category) {
+                    if (category !== 'main-search') {
+                        var filter_1 = _formattedFilters[category];
+                        if (angular.isArray(filter_1) && filter_1.length > 0) {
+                            if (filter_1.length > 1) {
+                                qp += "(@" + category + "==(";
+                                filter_1.forEach(function (option, i) {
+                                    qp += option.submitValue;
+                                    qp += (i < (filter_1.length - 1)) ? ',' : '';
+                                });
+                                qp += '))';
+                            }
+                            else {
+                                qp += "(@" + category + "==" + filter_1[0].submitValue + ")";
+                            }
+                        }
+                        else {
+                            qp += "(@" + category + "==" + filter_1.submitValue + ")";
+                        }
+                    }
                     return qp;
                 }, '');
             };
             return ReqBuilder;
         }());
+        ReqBuilder.$inject = [
+            '_'
+        ];
         Services.ReqBuilder = ReqBuilder;
         angular.module('saqs.services').service('ReqBuilder', ReqBuilder);
     })(Services = SAQS.Services || (SAQS.Services = {}));

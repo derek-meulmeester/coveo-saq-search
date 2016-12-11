@@ -9,6 +9,13 @@
     </head>
     <body ng-app="saqs">
         <search-bar></search-bar>
+        <div class="overlay" ng-if="loading">
+            <div class="overlay-msg-container">
+                <i class="fa fa-refresh fa-spin"></i>
+                <br>
+                <span>Loading</span>
+            </div>
+        </div>
         <ng-view></ng-view>
         <noscript>Unfortunately Coveo SAQ Search relies on JavaScript</noscript>
     </body>

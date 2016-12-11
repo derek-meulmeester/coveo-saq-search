@@ -7,4 +7,6 @@ module SAQS.Const.Events {
     export const afterApplyFilters = 'filter.apply.after';
 
     export const loadProducts = 'product.load';
+
+    export const performSearch = 'search.load';
 }

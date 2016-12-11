@@ -81,6 +81,7 @@ declare namespace SAQS {
             bcDisplay?: string|boolean
             multi: boolean
             value: any
+            submitValue: any
             skipApply?: boolean
         }
 

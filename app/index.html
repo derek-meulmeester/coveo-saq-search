@@ -9,11 +9,18 @@
     </head>
     <body ng-app="saqs">
         <search-bar></search-bar>
+        <div class="overlay" ng-if="loading">
+            <div class="overlay-msg-container">
+                <i class="fa fa-refresh fa-spin"></i>
+                <br>
+                <span>Loading</span>
+            </div>
+        </div>
         <ng-view></ng-view>
         <noscript>Unfortunately Coveo SAQ Search relies on JavaScript</noscript>
     </body>
 
-    <script>window.ACCESS_TOKEN = ''</script>
+    <script>window.ACCESS_TOKEN = '6318103b-f9da-437c-854b-9e6f1f44e27b'</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js"></script>

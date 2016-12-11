@@ -32,7 +32,7 @@ module SAQS.Directives {
                             limit: paging.limit,
                             offset: 0
                         });
-                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        EventBus.publish(SAQS.Const.Events.performSearch);
                         scope.curPage = 1;
                     };
 
@@ -44,7 +44,7 @@ module SAQS.Directives {
                             limit: paging.limit,
                             offset: newOffset < 0 ? 0 : newOffset
                         });
-                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        EventBus.publish(SAQS.Const.Events.performSearch);
 
                         if (scope.curPage > 1) {
                             scope.curPage -= 1;
@@ -59,7 +59,7 @@ module SAQS.Directives {
                             limit: paging.limit,
                             offset: newOffset > scope.totalPages ? scope.totalPages : newOffset
                         });
-                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        EventBus.publish(SAQS.Const.Events.performSearch);
 
                         if (scope.curPage < scope.totalPages) {
                             scope.curPage += 1;
@@ -75,7 +75,7 @@ module SAQS.Directives {
                             limit: paging.limit,
                             offset: 990
                         });
-                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        EventBus.publish(SAQS.Const.Events.performSearch);
                         scope.curPage = scope.totalPages - 1;
                     };
 
@@ -88,6 +88,17 @@ module SAQS.Directives {
                         } else {
                             scope.curPage = (Math.floor(paging.offset / paging.limit) + 1);
                         }
+                    });
+
+                    EventBus.subscribe(SAQS.Const.Events.applyFilters, scope, () => {
+                        let paging = DB.getPaging();
+
+                        DB.setPaging({
+                            limit: paging.limit,
+                            offset: 0
+                        });
+
+                        scope.curPage = 1;
                     });
                 }
             }

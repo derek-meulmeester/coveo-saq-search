@@ -17,6 +17,8 @@ module SAQS.Services {
                     private EventBus: SAQS.Services.EventBus,
                     private ReqBuilder: SAQS.Services.ReqBuilder) {
             self = this;
+
+            EventBus.subscribe(SAQS.Const.Events.performSearch, self, self.performSearch);
         }
 
         public search(searchReq: Models.SearchReq): ng.IPromise<Models.SearchRes<Models.Product>> {
