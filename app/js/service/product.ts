@@ -47,6 +47,8 @@ module SAQS.Services {
 
             searchRes.results.forEach((product: Models.Product) => {
                 product._favorite = (favorites[product.uniqueId]) ? true : false;
+                // use HTTPS urls for the image thumbnails
+                product.raw.tpthumbnailuri = product.raw.tpthumbnailuri.replace('http', 'https');
             });
         }
     }

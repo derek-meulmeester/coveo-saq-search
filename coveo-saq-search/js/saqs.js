@@ -847,6 +847,8 @@ var SAQS;
                 var favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};
                 searchRes.results.forEach(function (product) {
                     product._favorite = (favorites[product.uniqueId]) ? true : false;
+                    // use HTTPS urls for the image thumbnails
+                    product.raw.tpthumbnailuri = product.raw.tpthumbnailuri.replace('http', 'https');
                 });
             };
             return Product;
