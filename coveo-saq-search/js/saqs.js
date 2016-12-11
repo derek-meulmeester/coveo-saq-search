@@ -228,6 +228,17 @@ var SAQS;
 (function (SAQS) {
     var Const;
     (function (Const) {
+        var LocalStorage;
+        (function (LocalStorage) {
+            LocalStorage.FAVORITE_PRODUCTS = 'saqs.products.favorites';
+        })(LocalStorage = Const.LocalStorage || (Const.LocalStorage = {}));
+    })(Const = SAQS.Const || (SAQS.Const = {}));
+})(SAQS || (SAQS = {}));
+
+var SAQS;
+(function (SAQS) {
+    var Const;
+    (function (Const) {
         var Paging;
         (function (Paging) {
             Paging.DEFAULT_LIMIT = 12;
@@ -483,6 +494,22 @@ var SAQS;
                             if (product && product.clickUri) {
                                 $window.open(product.clickUri);
                             }
+                        };
+                        scope.favoriteProduct = function (product, $event) {
+                            $event.preventDefault();
+                            $event.stopPropagation();
+                            var itemKey = SAQS.Const.LocalStorage.FAVORITE_PRODUCTS;
+                            var favoritesStr = $window.localStorage.getItem(itemKey);
+                            var favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};
+                            if (product._favorite === true) {
+                                product._favorite = false;
+                                delete favorites[product.uniqueId];
+                            }
+                            else {
+                                product._favorite = true;
+                                favorites[product.uniqueId] = true;
+                            }
+                            $window.localStorage.setItem(itemKey, JSON.stringify(favorites));
                         };
                     }
                 };
@@ -792,7 +819,8 @@ var SAQS;
     (function (Services) {
         var self;
         var Product = (function () {
-            function Product($q, $http, EventBus, ReqBuilder) {
+            function Product($window, $q, $http, EventBus, ReqBuilder) {
+                this.$window = $window;
                 this.$q = $q;
                 this.$http = $http;
                 this.EventBus = EventBus;
@@ -806,15 +834,25 @@ var SAQS;
                 var data = self.ReqBuilder.getData(searchReq);
                 self.$http.post(uri, data)
                     .then(function (result) {
+                    self.enrich(result.data);
                     deferred.resolve(result.data);
                 })["catch"](function (error) {
                     deferred.reject(error);
                 });
                 return deferred.promise;
             };
+            Product.prototype.enrich = function (searchRes) {
+                var favoritesKey = SAQS.Const.LocalStorage.FAVORITE_PRODUCTS;
+                var favoritesStr = self.$window.localStorage.getItem(favoritesKey);
+                var favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};
+                searchRes.results.forEach(function (product) {
+                    product._favorite = (favorites[product.uniqueId]) ? true : false;
+                });
+            };
             return Product;
         }());
         Product.$inject = [
+            '$window',
             '$q',
             '$http',
             'EventBus',

@@ -86,6 +86,7 @@ declare namespace SAQS {
         }
 
         export interface Product {
+            _favorite?: boolean
             ClickUri: string
             clickUri: string
             FirstSentences: any

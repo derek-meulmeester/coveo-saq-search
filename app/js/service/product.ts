@@ -6,13 +6,15 @@ module SAQS.Services {
 
     export class Product {
         static $inject = [
+            '$window',
             '$q',
             '$http',
             'EventBus',
             'ReqBuilder'
         ];
 
-        constructor(private $q: ng.IQService,
+        constructor(private $window: ng.IWindowService,
+                    private $q: ng.IQService,
                     private $http: ng.IHttpService,
                     private EventBus: SAQS.Services.EventBus,
                     private ReqBuilder: SAQS.Services.ReqBuilder) {
@@ -28,6 +30,7 @@ module SAQS.Services {
             let data = self.ReqBuilder.getData(searchReq);
             self.$http.post(uri, data)
                 .then((result: any) => {
+                    self.enrich(result.data);
                     deferred.resolve(result.data);
                 })
                 .catch((error: any) => {
@@ -35,6 +38,16 @@ module SAQS.Services {
                 });
 
             return deferred.promise;
+        }
+
+        public enrich(searchRes: Models.SearchRes<Models.Product>) {
+            let favoritesKey = SAQS.Const.LocalStorage.FAVORITE_PRODUCTS;
+            let favoritesStr = self.$window.localStorage.getItem(favoritesKey);
+            let favorites = (favoritesStr) ? JSON.parse(favoritesStr) : {};
+
+            searchRes.results.forEach((product: Models.Product) => {
+                product._favorite = (favorites[product.uniqueId]) ? true : false;
+            });
         }
     }
 
