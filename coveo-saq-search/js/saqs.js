@@ -5,7 +5,7 @@ var SAQS;
         var API;
         (function (API) {
             API.BASE_URL = 'https://cloudplatform.coveo.com';
-            API.SEARCH_URI = API.BASE_URL + '/rest/search?access_token=6318103b-f9da-437c-854b-9e6f1f44e27b';
+            API.SEARCH_URI = API.BASE_URL + '/rest/search';
         })(API = Const.API || (Const.API = {}));
     })(Const = SAQS.Const || (SAQS.Const = {}));
 })(SAQS || (SAQS = {}));
@@ -33,6 +33,10 @@ var SAQS;
     (function (Const) {
         var Filters;
         (function (Filters) {
+            Filters.Sort = {
+                ASC: 'fieldAscending',
+                DESC: 'fieldDescending'
+            };
             Filters.ON_SPECIAL = {
                 title: 'On Special',
                 type: 'checkbox',
@@ -371,7 +375,15 @@ var SAQS;
                 self = this;
                 self._db = {
                     filters: {},
-                    products: []
+                    products: [],
+                    sort: {
+                        field: 'tpmillesime',
+                        dir: SAQS.Const.Filters.Sort.DESC
+                    },
+                    paging: {
+                        offset: 0,
+                        limit: 10
+                    }
                 };
                 EventBus.subscribe(SAQS.Const.Events.addFilter, self, self.addFilter);
                 EventBus.subscribe(SAQS.Const.Events.removeFilter, self, self.removeFilter);
@@ -443,6 +455,12 @@ var SAQS;
             };
             DB.prototype.getProducts = function () {
                 return self.$parse('_db.products')(self);
+            };
+            DB.prototype.getSorting = function () {
+                return self.$parse('_db.sort')(self);
+            };
+            DB.prototype.getPaging = function () {
+                return self.$parse('_db.paging')(self);
             };
             return DB;
         }());
@@ -540,7 +558,9 @@ var SAQS;
                     return filters[key];
                 });
                 var searchReq = {
-                    filters: searchFilters
+                    filters: searchFilters,
+                    sort: self.DB.getSorting(),
+                    paging: self.DB.getPaging()
                 };
                 self.Product.search(searchReq)
                     .then(function (searchRes) {
@@ -567,17 +587,18 @@ var SAQS;
     (function (Services) {
         var self;
         var Product = (function () {
-            function Product($q, $http, EventBus) {
+            function Product($q, $http, EventBus, ReqBuilder) {
                 this.$q = $q;
                 this.$http = $http;
                 this.EventBus = EventBus;
+                this.ReqBuilder = ReqBuilder;
                 self = this;
             }
             Product.prototype.search = function (searchReq) {
                 var deferred = self.$q.defer();
-                var queryParams = self.getQueryParams(searchReq.filters);
-                var uri = SAQS.Const.API.SEARCH_URI + queryParams;
-                self.$http.get(uri)
+                var uri = self.ReqBuilder.getUri(searchReq);
+                var data = self.ReqBuilder.getData(searchReq);
+                self.$http.post(uri, data)
                     .then(function (result) {
                     deferred.resolve(result.data);
                 })["catch"](function (error) {
@@ -585,20 +606,71 @@ var SAQS;
                 });
                 return deferred.promise;
             };
-            Product.prototype.getQueryParams = function (filters) {
-                return filters.reduce(function (qp, filter) {
-                    var category = (filter.category === 'main-search' ? 'q' : filter.category);
-                    return qp += "&" + category + "=" + filter.value;
-                }, '');
-            };
             return Product;
         }());
         Product.$inject = [
             '$q',
             '$http',
-            'EventBus'
+            'EventBus',
+            'ReqBuilder'
         ];
         Services.Product = Product;
         angular.module('saqs.services').service('Product', Product);
+    })(Services = SAQS.Services || (SAQS.Services = {}));
+})(SAQS || (SAQS = {}));
+
+var SAQS;
+(function (SAQS) {
+    var Services;
+    (function (Services) {
+        var self;
+        var ReqBuilder = (function () {
+            function ReqBuilder() {
+                this.defaultSearchReqData = {
+                    aq: '',
+                    searchHub: 'default',
+                    language: 'en',
+                    pipeline: 'default',
+                    firstResult: 0,
+                    numberOfResults: 10,
+                    excerptLength: 200,
+                    filterField: null,
+                    enableDidYouMean: true,
+                    sortCriteria: 'fieldDescending',
+                    sortField: '@tpmillesime',
+                    queryFunctions: [],
+                    rankingFunctions: [],
+                    retrieveFirstSentences: true,
+                    timezone: 'America/New_York',
+                    enableDuplicateFiltering: false,
+                    enableCollaborativeRating: false
+                };
+                self = this;
+            }
+            ReqBuilder.prototype.getUri = function (searchReq) {
+                return SAQS.Const.API.SEARCH_URI + "?" + self.getApiKey() + "&errorsAsSuccess=1";
+            };
+            ReqBuilder.prototype.getData = function (searchReq) {
+                var data = angular.extend({}, self.defaultSearchReqData, {
+                    aq: self.getFilters(searchReq.filters),
+                    sortField: "@" + searchReq.sort.field,
+                    sortCriteria: searchReq.sort.dir
+                });
+                return data;
+            };
+            ReqBuilder.prototype.getApiKey = function () {
+                var ACCESS_TOKEN = window.ACCESS_TOKEN || '';
+                return "access_token=" + ACCESS_TOKEN;
+            };
+            ReqBuilder.prototype.getFilters = function (filters) {
+                return filters.reduce(function (qp, filter) {
+                    qp += "(@" + filter.category + "==" + filter.value + ")";
+                    return qp;
+                }, '');
+            };
+            return ReqBuilder;
+        }());
+        Services.ReqBuilder = ReqBuilder;
+        angular.module('saqs.services').service('ReqBuilder', ReqBuilder);
     })(Services = SAQS.Services || (SAQS.Services = {}));
 })(SAQS || (SAQS = {}));

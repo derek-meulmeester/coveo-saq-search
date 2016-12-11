@@ -7,6 +7,8 @@ module SAQS.Services {
     export interface Data {
         filters: {[key:string]: Models.SearchFilter}
         products: Models.Product[]
+        sort: Models.SearchSort
+        paging: Models.SearchPaging
     }
 
     export class DB {
@@ -23,7 +25,15 @@ module SAQS.Services {
 
             self._db = <Data>{
                 filters: {},
-                products: []
+                products: [],
+                sort: {
+                    field: 'tpmillesime',
+                    dir: SAQS.Const.Filters.Sort.DESC
+                },
+                paging: {
+                    offset: 0,
+                    limit: 10
+                }
             };
 
             EventBus.subscribe(SAQS.Const.Events.addFilter, self, self.addFilter);
@@ -106,6 +116,14 @@ module SAQS.Services {
 
         public getProducts() {
             return self.$parse('_db.products')(self);
+        }
+
+        public getSorting() {
+            return self.$parse('_db.sort')(self);
+        }
+
+        public getPaging() {
+            return self.$parse('_db.paging')(self);
         }
     }
 

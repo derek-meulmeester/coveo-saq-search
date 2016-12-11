@@ -1,8 +1,45 @@
+interface Window {
+    ACCESS_TOKEN: string
+}
+
 declare namespace SAQS {
 
     export module Models {
+
+        export interface SearchReqData {
+            aq: string
+            searchHub: string
+            language: string
+            pipeline: string
+            firstResult: number
+            numberOfResults: number
+            excerptLength: number
+            filterField: string
+            enableDidYouMean: boolean
+            sortCriteria: string
+            sortField: string
+            queryFunctions: any[]
+            rankingFunctions: any[]
+            retrieveFirstSentences: boolean
+            timezone: string
+            enableDuplicateFiltering: boolean
+            enableCollaborativeRating: boolean
+        }
+
         export interface SearchReq {
             filters: SearchFilter[]
+            sort: SearchSort
+            paging: SearchPaging
+        }
+
+        export interface SearchSort {
+            field: string
+            dir: string
+        }
+
+        export interface SearchPaging {
+            offset: number
+            limit: number
         }
 
         export interface SearchRes<T> {

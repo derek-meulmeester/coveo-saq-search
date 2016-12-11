@@ -2,6 +2,11 @@ module SAQS.Const.Filters {
 
     import Models = SAQS.Models;
 
+    export const Sort = {
+        ASC: 'fieldAscending',
+        DESC: 'fieldDescending'
+    };
+
     export const ON_SPECIAL: Models.ProductFilter = {
         title: 'On Special',
         type: 'checkbox',

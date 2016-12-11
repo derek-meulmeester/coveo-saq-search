@@ -25,7 +25,9 @@ module SAQS.Services {
                 return filters[key];
             });
             let searchReq: Models.SearchReq = {
-                filters: searchFilters
+                filters: searchFilters,
+                sort: self.DB.getSorting(),
+                paging: self.DB.getPaging()
             };
 
             self.Product.search(searchReq)

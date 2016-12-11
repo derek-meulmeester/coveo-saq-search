@@ -8,21 +8,23 @@ module SAQS.Services {
         static $inject = [
             '$q',
             '$http',
-            'EventBus'
+            'EventBus',
+            'ReqBuilder'
         ];
 
         constructor(private $q: ng.IQService,
                     private $http: ng.IHttpService,
-                    private EventBus: SAQS.Services.EventBus) {
+                    private EventBus: SAQS.Services.EventBus,
+                    private ReqBuilder: SAQS.Services.ReqBuilder) {
             self = this;
         }
 
         public search(searchReq: Models.SearchReq): ng.IPromise<Models.SearchRes<Models.Product>> {
             let deferred = self.$q.defer();
 
-            let queryParams = self.getQueryParams(searchReq.filters);
-            let uri = SAQS.Const.API.SEARCH_URI + queryParams;
-            self.$http.get(uri)
+            let uri = self.ReqBuilder.getUri(searchReq);
+            let data = self.ReqBuilder.getData(searchReq);
+            self.$http.post(uri, data)
                 .then((result: any) => {
                     deferred.resolve(result.data);
                 })
@@ -31,13 +33,6 @@ module SAQS.Services {
                 });
 
             return deferred.promise;
-        }
-
-        private getQueryParams(filters: Models.SearchFilter[]): string {
-            return filters.reduce((qp: any, filter: Models.SearchFilter) => {
-                let category = (filter.category === 'main-search' ? 'q' : filter.category);
-                return qp += `&${category}=${filter.value}`;
-            }, '');
         }
     }
 
