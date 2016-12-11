@@ -38,7 +38,9 @@ module SAQS.Services {
             let data = angular.extend({}, self.defaultSearchReqData, {
                 aq: self.getFilters(searchReq.filters),
                 sortField: `@${searchReq.sort.field}`,
-                sortCriteria: searchReq.sort.dir
+                sortCriteria: searchReq.sort.dir,
+                firstResult: searchReq.paging.offset,
+                numberOfResults: searchReq.paging.limit
             });
 
             return data;

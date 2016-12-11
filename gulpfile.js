@@ -24,7 +24,7 @@ gulp.task('clean:build', function() {
 });
 
 gulp.task('clean:dest', function() {
-    del([DEST + '/*']).then(function(paths) {
+    del([DEST + '/css', DEST + '/js', DEST + '/templates']).then(function(paths) {
         console.log('DEST: Deleted files and folders:\n', paths.join('\n'));
     });
 });
@@ -41,8 +41,7 @@ gulp.task('copy:dest', function(done) {
         BUILD + '/css/' + bundle.name + '.css',
         BUILD + '/css/' + bundle.name + '.min.css',
         BUILD + '/js/' + bundle.name + '.js',
-        BUILD + '/js/' + bundle.name + '.min.js',
-        BUILD + '/img/**/*'
+        BUILD + '/js/' + bundle.name + '.min.js'
     ], {
         base: BUILD
     })

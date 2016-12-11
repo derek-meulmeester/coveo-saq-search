@@ -81,6 +81,7 @@ declare namespace SAQS {
             bcDisplay?: string|boolean
             multi: boolean
             value: any
+            skipApply?: boolean
         }
 
         export interface Product {
@@ -177,6 +178,11 @@ declare namespace SAQS {
             tptemperaturedeservice: string
             tpthumbnailuri: string
             urihash: string
+        }
+
+        export interface Page {
+            num: number|string
+            active: boolean
         }
     }
 }

@@ -1,0 +1,15 @@
+<div class="paging-container">
+    <button class="first" ng-click="first()" ng-disabled="curPage <= 1">
+        <i class="fa fa-angle-double-left"></i>
+    </button>
+    <button class="prev" ng-click="prev()" ng-disabled="curPage <= 1">
+        <i class="fa fa-angle-left"></i>
+    </button>
+    <span class="page-info">page {{ curPage }} of {{ totalPages }}</span>
+    <button class="next" ng-click="next()" ng-disabled="curPage === totalPages || curPage === 0">
+        <i class="fa fa-angle-right"></i>
+    </button>
+    <button class="last" ng-click="last()" ng-disabled="curPage === totalPages || curPage === 0">
+        <i class="fa fa-angle-double-right"></i>
+    </button>
+</div>

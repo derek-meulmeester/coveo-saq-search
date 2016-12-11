@@ -162,6 +162,7 @@ var SAQS;
             Templates.PRODUCT_FILTER_TPL = BASE + 'directives/product-filter.html';
             Templates.PRODUCT_LIST_TPL = BASE + 'directives/product-list.html';
             Templates.BREADCRUMB_TPL = BASE + 'directives/breadcrumbs.html';
+            Templates.PAGING_TPL = BASE + 'directives/paging.html';
         })(Templates = Const.Templates || (Const.Templates = {}));
     })(Const = SAQS.Const || (SAQS.Const = {}));
 })(SAQS || (SAQS = {}));
@@ -219,9 +220,19 @@ var SAQS;
                     scope: {},
                     templateUrl: Templates.BREADCRUMB_TPL,
                     link: function (scope) {
+                        scope.itemCount = 0;
+                        scope.totalItemCount = 0;
                         scope.crumbs = [];
                         scope.removeCrumb = function (crumb) {
                             EventBus.publish(SAQS.Const.Events.removeFilter, crumb);
+                        };
+                        scope.removeAll = function () {
+                            var crumbs = angular.copy(scope.crumbs);
+                            crumbs.forEach(function (crumb) {
+                                crumb.skipApply = true;
+                                EventBus.publish(SAQS.Const.Events.removeFilter, crumb);
+                            });
+                            EventBus.publish(SAQS.Const.Events.applyFilters);
                         };
                         EventBus.subscribe(SAQS.Const.Events.addFilter, scope, function (option) {
                             var idx = _.findIndex(scope.crumbs, { key: option.key });
@@ -234,6 +245,87 @@ var SAQS;
                         });
                         EventBus.subscribe(SAQS.Const.Events.removeFilter, scope, function (option) {
                             scope.crumbs.splice(_.findIndex(scope.crumbs, { key: option.key }), 1);
+                        });
+                        EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, function (response) {
+                            scope.itemCount = response.results.length;
+                            scope.totalItemCount = response.totalCount;
+                        });
+                    }
+                };
+            }
+        ]);
+    })(Directives = SAQS.Directives || (SAQS.Directives = {}));
+})(SAQS || (SAQS = {}));
+
+var SAQS;
+(function (SAQS) {
+    var Directives;
+    (function (Directives) {
+        var Templates = SAQS.Const.Templates;
+        angular.module('saqs.directives').directive('paging', [
+            'EventBus',
+            'DB',
+            function (EventBus, DB) {
+                return {
+                    restrict: 'E',
+                    scope: {},
+                    templateUrl: Templates.PAGING_TPL,
+                    link: function (scope) {
+                        scope.curPage = 1;
+                        scope.totalPages = 1;
+                        scope.first = function () {
+                            var paging = DB.getPaging();
+                            DB.setPaging({
+                                limit: paging.limit,
+                                offset: 0
+                            });
+                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            scope.curPage = 1;
+                        };
+                        scope.prev = function () {
+                            var paging = DB.getPaging();
+                            var newOffset = (paging.offset - paging.limit);
+                            DB.setPaging({
+                                limit: paging.limit,
+                                offset: newOffset < 0 ? 0 : newOffset
+                            });
+                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            if (scope.curPage > 1) {
+                                scope.curPage -= 1;
+                            }
+                        };
+                        scope.next = function () {
+                            var paging = DB.getPaging();
+                            var newOffset = (paging.offset + paging.limit);
+                            DB.setPaging({
+                                limit: paging.limit,
+                                offset: newOffset > scope.totalPages ? scope.totalPages : newOffset
+                            });
+                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            if (scope.curPage < scope.totalPages) {
+                                scope.curPage += 1;
+                            }
+                        };
+                        // TODO: for some reason the API won't let me have an offset greater
+                        // then 990 - would need to look into why
+                        scope.last = function () {
+                            var paging = DB.getPaging();
+                            DB.setPaging({
+                                limit: paging.limit,
+                                offset: 990
+                            });
+                            EventBus.publish(SAQS.Const.Events.applyFilters);
+                            scope.curPage = scope.totalPages - 1;
+                        };
+                        EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, function (response) {
+                            var paging = DB.getPaging();
+                            scope.totalPages = Math.ceil(response.totalCount / paging.limit);
+                            if (response.results.length === 0) {
+                                scope.curPage = 0;
+                            }
+                            else {
+                                scope.curPage = (Math.floor(paging.offset / paging.limit) + 1);
+                            }
                         });
                     }
                 };
@@ -417,7 +509,9 @@ var SAQS;
                         delete filters[option.category];
                     }
                     self.EventBus.publish(SAQS.Const.Events.afterRemoveFilter, option);
-                    self.EventBus.publish(SAQS.Const.Events.applyFilters);
+                    if (option.skipApply !== true) {
+                        self.EventBus.publish(SAQS.Const.Events.applyFilters);
+                    }
                 }
                 // TODO: This is not good but currently using SAQS.Const.Filters as the src
                 // for the product-filters component. It should use DB instead
@@ -443,7 +537,8 @@ var SAQS;
                     }
                 }
             };
-            DB.prototype.loadProducts = function (newProducts) {
+            DB.prototype.loadProducts = function (response) {
+                var newProducts = response.results;
                 var products = self.getProducts();
                 // clear the products array and push in the new products
                 // but keep the same reference!!
@@ -461,6 +556,9 @@ var SAQS;
             };
             DB.prototype.getPaging = function () {
                 return self.$parse('_db.paging')(self);
+            };
+            DB.prototype.setPaging = function (paging) {
+                self._db.paging = paging;
             };
             return DB;
         }());
@@ -564,7 +662,7 @@ var SAQS;
                 };
                 self.Product.search(searchReq)
                     .then(function (searchRes) {
-                    self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes.results);
+                    self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes);
                 })["catch"](function (error) {
                     alert('Error searching for products');
                 });
@@ -654,7 +752,9 @@ var SAQS;
                 var data = angular.extend({}, self.defaultSearchReqData, {
                     aq: self.getFilters(searchReq.filters),
                     sortField: "@" + searchReq.sort.field,
-                    sortCriteria: searchReq.sort.dir
+                    sortCriteria: searchReq.sort.dir,
+                    firstResult: searchReq.paging.offset,
+                    numberOfResults: searchReq.paging.limit
                 });
                 return data;
             };

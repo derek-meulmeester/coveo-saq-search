@@ -1,0 +1,96 @@
+module SAQS.Directives {
+
+    import Templates = SAQS.Const.Templates;
+    import Models = SAQS.Models;
+
+    interface Scope extends ng.IScope {
+        curPage: number
+        totalPages: number
+        first: () => void
+        prev: () => void
+        next: () => void
+        last: () => void
+    }
+
+    angular.module('saqs.directives').directive('paging', [
+        'EventBus',
+        'DB',
+        (EventBus: SAQS.Services.EventBus,
+         DB: SAQS.Services.DB) => {
+            return {
+                restrict: 'E',
+                scope: {},
+                templateUrl: Templates.PAGING_TPL,
+                link: (scope: Scope) => {
+                    scope.curPage = 1;
+                    scope.totalPages = 1;
+
+                    scope.first = () => {
+                        let paging = DB.getPaging();
+
+                        DB.setPaging({
+                            limit: paging.limit,
+                            offset: 0
+                        });
+                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        scope.curPage = 1;
+                    };
+
+                    scope.prev = () => {
+                        let paging = DB.getPaging();
+                        let newOffset = (paging.offset - paging.limit);
+
+                        DB.setPaging({
+                            limit: paging.limit,
+                            offset: newOffset < 0 ? 0 : newOffset
+                        });
+                        EventBus.publish(SAQS.Const.Events.applyFilters);
+
+                        if (scope.curPage > 1) {
+                            scope.curPage -= 1;
+                        }
+                    };
+
+                    scope.next = () => {
+                        let paging = DB.getPaging();
+                        let newOffset = (paging.offset + paging.limit);
+
+                        DB.setPaging({
+                            limit: paging.limit,
+                            offset: newOffset > scope.totalPages ? scope.totalPages : newOffset
+                        });
+                        EventBus.publish(SAQS.Const.Events.applyFilters);
+
+                        if (scope.curPage < scope.totalPages) {
+                            scope.curPage += 1;
+                        }
+                    };
+
+                    // TODO: for some reason the API won't let me have an offset greater
+                    // then 990 - would need to look into why
+                    scope.last = () => {
+                        let paging = DB.getPaging();
+
+                        DB.setPaging({
+                            limit: paging.limit,
+                            offset: 990
+                        });
+                        EventBus.publish(SAQS.Const.Events.applyFilters);
+                        scope.curPage = scope.totalPages - 1;
+                    };
+
+                    EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, (response: Models.SearchRes<Models.Product>) => {
+                        let paging = DB.getPaging();
+
+                        scope.totalPages = Math.ceil(response.totalCount / paging.limit);
+                        if (response.results.length === 0) {
+                            scope.curPage = 0;
+                        } else {
+                            scope.curPage = (Math.floor(paging.offset / paging.limit) + 1);
+                        }
+                    });
+                }
+            }
+        }
+    ]);
+}

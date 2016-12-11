@@ -8,4 +8,5 @@ module SAQS.Const.Templates {
     export const PRODUCT_FILTER_TPL = BASE + 'directives/product-filter.html';
     export const PRODUCT_LIST_TPL = BASE + 'directives/product-list.html';
     export const BREADCRUMB_TPL = BASE + 'directives/breadcrumbs.html';
+    export const PAGING_TPL = BASE + 'directives/paging.html';
 }

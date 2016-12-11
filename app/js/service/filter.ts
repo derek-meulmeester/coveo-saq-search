@@ -32,7 +32,7 @@ module SAQS.Services {
 
             self.Product.search(searchReq)
                 .then((searchRes: Models.SearchRes<Models.Product>) => {
-                    self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes.results)
+                    self.EventBus.publish(SAQS.Const.Events.loadProducts, searchRes)
                 })
                 .catch((error: any) => {
                     alert('Error searching for products');

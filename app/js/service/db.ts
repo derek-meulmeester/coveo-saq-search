@@ -72,7 +72,9 @@ module SAQS.Services {
                 }
 
                 self.EventBus.publish(SAQS.Const.Events.afterRemoveFilter, option);
-                self.EventBus.publish(SAQS.Const.Events.applyFilters);
+                if (option.skipApply !== true) {
+                    self.EventBus.publish(SAQS.Const.Events.applyFilters);
+                }
             }
 
             // TODO: This is not good but currently using SAQS.Const.Filters as the src
@@ -101,7 +103,8 @@ module SAQS.Services {
             }
         }
 
-        private loadProducts(newProducts: Models.Product[]) {
+        private loadProducts(response: Models.SearchRes<Models.Product>) {
+            let newProducts = response.results;
             let products = self.getProducts();
 
             // clear the products array and push in the new products
@@ -118,12 +121,16 @@ module SAQS.Services {
             return self.$parse('_db.products')(self);
         }
 
-        public getSorting() {
+        public getSorting(): Models.SearchSort {
             return self.$parse('_db.sort')(self);
         }
 
-        public getPaging() {
+        public getPaging(): Models.SearchPaging {
             return self.$parse('_db.paging')(self);
+        }
+
+        public setPaging(paging: Models.SearchPaging) {
+            self._db.paging = paging;
         }
     }
 
