@@ -662,7 +662,8 @@ var SAQS;
                     else {
                         switch (_filter.type) {
                             case 'checkbox':
-                                _filter.options[0].value = false;
+                                var _option = self._.find(_filter.options, { key: option.key }) || {};
+                                _option.value = false;
                                 break;
                         }
                     }
