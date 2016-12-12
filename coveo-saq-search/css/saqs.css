@@ -233,7 +233,7 @@ body {
   display: inline;
   padding: 5px 10px;
   margin: 5px;
-  background-color: #2650A3;
+  background-color: #F57F25;
   border-radius: 5px;
   color: #FFF;
   font-size: 12px;
@@ -269,7 +269,7 @@ body {
     border-radius: 3px 0 0 3px; }
 
 .page-info {
-  margin: 0 10px;
+  margin: 0 20px;
   font-size: 13px;
   color: #6b6b6b; }
   .page-info b {
