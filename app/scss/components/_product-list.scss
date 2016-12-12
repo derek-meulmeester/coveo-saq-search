@@ -57,3 +57,18 @@
 .checkbox-label {
     font-size: 12px;
 }
+
+.product-list-empty {
+    text-align: center;
+    width: 100%;
+    padding: 100px;
+
+    h1 {
+        color: #DDD;
+        font-size: 100px;
+        margin: 0;
+    }
+    h2 {
+        color: #d2d2d2;
+    }
+}

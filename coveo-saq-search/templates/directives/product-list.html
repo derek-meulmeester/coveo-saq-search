@@ -14,5 +14,9 @@
                 <p class="product-notes">{{ product.raw.tpnotededegustation || product.excerpt.split('...')[0] }}</p>
             </div>
         </div>
+        <div ng-if="!products.length" class="product-list-empty">
+            <h1><i class="fa fa-cloud"></i></h1>
+            <h2>No Products match your Search!</h2>
+        </div>
     </div>
 </div>

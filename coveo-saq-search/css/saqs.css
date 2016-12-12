@@ -204,6 +204,17 @@ body {
 .checkbox-label {
   font-size: 12px; }
 
+.product-list-empty {
+  text-align: center;
+  width: 100%;
+  padding: 100px; }
+  .product-list-empty h1 {
+    color: #DDD;
+    font-size: 100px;
+    margin: 0; }
+  .product-list-empty h2 {
+    color: #d2d2d2; }
+
 .breadcrumb-container {
   padding: 20px 5px;
   display: flex;
