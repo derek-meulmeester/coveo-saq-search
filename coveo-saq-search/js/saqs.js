@@ -519,6 +519,9 @@ var SAQS;
                             }
                             $window.localStorage.setItem(itemKey, JSON.stringify(favorites));
                         };
+                        EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, function () {
+                            document.querySelector('div.product-list').scrollTop = 0;
+                        });
                     }
                 };
             }

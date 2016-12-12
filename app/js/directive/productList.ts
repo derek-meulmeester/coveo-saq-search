@@ -46,6 +46,10 @@ module SAQS.Directives {
 
                         $window.localStorage.setItem(itemKey, JSON.stringify(favorites));
                     };
+
+                    EventBus.subscribe(SAQS.Const.Events.loadProducts, scope, () => {
+                        document.querySelector('div.product-list').scrollTop = 0;
+                    });
                 }
             }
         }
