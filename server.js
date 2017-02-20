@@ -34,6 +34,10 @@ function handleRequest(req, res){
     else if (fileName.endsWith('.gif')) {
         contentType = 'image/gif';
     }
+    /** SVG */
+    else if (fileName.endsWith('.svg')) {
+        contentType = 'image/svg+xml';
+    }
 
     fs.readFile(fileName, "utf8", function(err, data) {
         if (err) {
